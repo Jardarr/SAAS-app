@@ -37,7 +37,7 @@ export default function Weather() {
 	const [weather, setWeather] = useState<Partial<WeatherData>>({});
 
 	const api = {
-		key: "75f32794488c0fe4eed091343f2b9575",
+		key: "16bac4945d8fc7d28667e0e8e29c8d39",
 		base: "https://api.openweathermap.org/data/2.5/",
 	};
 
