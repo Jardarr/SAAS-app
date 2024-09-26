@@ -2,11 +2,21 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function TodoApp() {
-	const [tasks, setTasks] = useState<string[]>([]);
+	const [tasks, setTasks] = useState<string[]>(() => {
+		const savedTasks = localStorage.getItem("tasks");
+		return savedTasks ? JSON.parse(savedTasks) : [];
+	});
 	const [newTask, setNewTask] = useState("");
+
+	useEffect(() => {
+		if (tasks.length > 0) {
+			localStorage.setItem("tasks", JSON.stringify(tasks));
+		}
+	}, [tasks]);
+
 	function addTask() {
 		if (newTask.trim() !== "") {
 			setTasks([...tasks, newTask]);
@@ -17,7 +27,10 @@ export default function TodoApp() {
 		const newArray = [...tasks];
 		newArray.splice(index, 1);
 		setTasks(newArray);
+
+		localStorage.setItem("tasks", JSON.stringify(newArray));
 	}
+
 	return (
 		<div className="mx-2">
 			<h1 className="text-xl font-bold dark:text-red-500/30">Todo App</h1>
