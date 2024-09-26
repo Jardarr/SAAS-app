@@ -5,14 +5,22 @@ import { Trash2 } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function TodoApp() {
-	const [tasks, setTasks] = useState<string[]>(() => {
-		const savedTasks = localStorage.getItem("tasks");
-		return savedTasks ? JSON.parse(savedTasks) : [];
-	});
+	const [tasks, setTasks] = useState<string[]>([]);
 	const [newTask, setNewTask] = useState("");
 
+	// Загружаем данные из localStorage только на клиенте
 	useEffect(() => {
-		if (tasks.length > 0) {
+		if (typeof window !== "undefined") {
+			const savedTasks = localStorage.getItem("tasks");
+			if (savedTasks) {
+				setTasks(JSON.parse(savedTasks));
+			}
+		}
+	}, []);
+
+	// Сохраняем задачи в localStorage при каждом изменении списка задач
+	useEffect(() => {
+		if (typeof window !== "undefined") {
 			localStorage.setItem("tasks", JSON.stringify(tasks));
 		}
 	}, [tasks]);
