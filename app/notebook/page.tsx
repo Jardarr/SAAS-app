@@ -1,3 +1,4 @@
+import DeleteButton from "../components/DeleteButton";
 import Form from "../components/Form";
 import prisma from "../db";
 
@@ -26,7 +27,10 @@ export default async function TodoApp() {
 				<Form />
 				{data.map((entry: tasklist) => (
 					<div key={entry.id} className="w-full text-sm break-words">
-						<div className="mt-2 p-2 border border-red-500 rounded-md bg-red-500/30">{entry.task}</div>
+						<div className="flex justify-between mt-2 p-2 border border-red-500 rounded-md bg-red-500/30">
+							{entry.task}
+							<DeleteButton taskId={entry.id} />
+						</div>
 					</div>
 				))}
 			</div>

@@ -8,8 +8,18 @@ export async function postEntry(formData: FormData) {
     const data = await prisma.tasklist.create({
         data: {
             task: formData.get("entry") as string,
-            userName: "hello",
+            userName: "user",
         },
     });
-    revalidatePath("/todos");
+    revalidatePath("/notebook");
+}
+
+export async function deleteEntry(taskId: string) {
+    "use server";
+    const data = await prisma.tasklist.delete({
+        where: {
+            id: taskId,
+        },
+    });
+    revalidatePath("/notebook");
 }
